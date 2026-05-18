@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Promedio de Alumnos</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="css/Style.css">
+</head>
+<body class="bg1">
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary"  data-bs-theme="dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="Alumno.html">Alumnos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Docente.html">Docente</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="Asignatura.html">Asignaturas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="NotaAlumnos.html">Notas de alumnos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Resultados.html">Resultados</a>
+        </li>
+           <li class="nav-item">
+          <a class="nav-link" href="informeAlumnoPromedio.html">InformePromedio</a>
+        </li>
+         <li class="nav-item">
+          <a class="nav-link" href="informeAsignaturaPromedio.html">InformePromedio</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0">Listado de Promedio de Alumnos</h1>
+</div>
+
+<div class="p-3 mb-2 bg-white text-dark">
+<div class="row">
+  <div class="col-md-2 mb-2">
+        <label class="control-label">Desde</label>
+        <input class="form-control form-control-sm" type="date" id="FechaDesdeBuscar"/>
+    </div>
+  <div class="col-md-2 mb-2">
+        <label class="control-label">Hasta</label>
+        <input class="form-control form-control-sm" type="date" id="FechaHastaBuscar"/>
+    </div>
+    <div class="col-md-4 mb-2">
+        <label class="control-label">Asignatura</label>
+        <select class="form-control form-control-sm" id="selectAsignaturas"></select>
+    </div>
+</div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-sm" id="tablaAlumnos" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                <th class="text-center" style="width: 100px;">DNI</th>
+                <th class="text-center" style="width: 100px;">Promedio</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="js/informeAlumnoPromedio.js"></script>
+
+<script>
+    window.onload = ObtenerinformePromedioAlumno;
+</script>
+
+</body>
+</html>
