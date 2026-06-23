@@ -162,3 +162,49 @@ function EditarDocente() {
     })
     .catch(error => console.error(error));
 }
+
+async function AbrirModalHistorial(id) {
+
+  try {
+    const respuesta = await fetch(`https://localhost:7187/Api/Informes/HistorialDocente/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    if (!respuesta.ok) {
+      throw new Error("No se pudo obtener el dato");
+    }
+
+    const historial = await respuesta.json();
+
+    const bodyNotasAlumnos = document.getElementById("tbody-historial-docente");
+    bodyNotasAlumnos.innerHTML = "";
+
+    historial.forEach((docente) => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+       <td class="text-center">${nota.fechaCambioString} Hs.</td>
+            <td>${docente.campoModificado}</td>
+            <td>${docente.valorAnterior} </td>
+              <td>${docente.valorNuevo} </td>
+        `;
+
+      bodyDocente.appendChild(tr);
+    });
+
+
+    var modal = bootstrap.Modal.getOrCreateInstance(
+      document.getElementById('modalHistorialDocente')
+    );
+
+    modal.show();
+
+  } catch (error) {
+    console.error("Error editar:", error);
+  }
+}

@@ -37,10 +37,10 @@
           <a class="nav-link" href="Resultados.html">Resultados</a>
         </li>
            <li class="nav-item">
-          <a class="nav-link" href="informeAlumnoPromedio.html">InformePromedio</a>
+          <a class="nav-link" href="informeAlumnoPromedio.html">Informe Alumno Promedio</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" href="informeAsignaturaPromedio.html">InformePromedio</a>
+          <a class="nav-link" href="informeAsignaturaPromedio.html">Informe Asignatura Promedio</a>
         </li>
       </ul>
     </div>
@@ -63,6 +63,7 @@
                 <th>Alumno</th>
                 <th>Asignatura</th>
                 <th>Nota</th>
+                <th></th>
                 <th></th>
                 <th></th>
             </tr>
@@ -131,10 +132,41 @@
     </div>
 </div>
 
+
+<!-- Modal historial -->
+      <div class="modal fade" id="modalHistorialNotaAlumno" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5 subTitulo-vista">HISTORIAL DE CAMBIOS DE LA NOTA</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col">Fecha Edición</th>
+                    <th scope="col">Atributo</th>
+                    <th scope="col">Valor Anterior</th>
+                    <th scope="col">Valor Nuevo</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-historial-notas">
+
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="js/notaalumno.js"> </script>
+<script src="js/NotaAlumno.js"> </script>
 
 <script>
     window.onload = function () {

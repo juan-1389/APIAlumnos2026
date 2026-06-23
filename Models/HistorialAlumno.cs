@@ -3,27 +3,26 @@ using System.ComponentModel.DataAnnotations;
 namespace APIAlumnos2026.Models;
 
 
-public class HistorialNotaAlumno
+public class HistorialAlumno
 {   
 [Key]
 
-public int HistorialNotaAlumnoId { get; set; }   
+public int HistorialAlumnoId { get; set; }   
 
-public int NotaAlumnoId { get; set; } 
+public int AlumnoId { get; set; } 
 public string? CampoModificado { get; set; }
 
 public string? ValorAnterior { get; set; } 
 
 public string? ValorNuevo { get; set; } 
 
-
 public DateTime FechaCambio { get; set; }
 
 }
-public class VistaHistorialNotaAlumno
+ public class VistaHistorialAlumno
     {
-        public int HistorialNotaAlumnoId { get; set; }
-        public int NotaAlumnoId { get; set; }
+        public int HistorialAlumnoId { get; set; }
+        public int AlumnoId { get; set; }
         public string? FechaCambioString { get; set; }
         public string? CampoModificado { get; set; }
         public string? ValorAnterior { get; set; }

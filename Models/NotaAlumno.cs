@@ -9,7 +9,7 @@ public class NotaAlumno
 
 public int NotaAlumnoId { get; set; }   
 
-public DateOnly FechaNota { get; set; }
+public DateTime FechaNota { get; set; }
 
 public int Nota { get; set; } 
 public int AlumnoId { get; set; }

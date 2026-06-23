@@ -21,6 +21,11 @@ public class Context : DbContext
         
              public DbSet<APIAlumnos2026.Models.NotaAlumno> NotaAlumnos { get; set; } = default!;
 
-             public DbSet<APIAlumnos2026.Models.HistorialNotaAlumno> HistorialNotaAlumnos { get; set; } = default!;
-            
+             public DbSet<APIAlumnos2026.Models.HistorialNotaAlumno> HistorialNotaAlumno { get; set; } = default!;
+
+             public DbSet<APIAlumnos2026.Models.VistaNotaAlumno> VistaNotaAlumnos { get; set; } = default!;
+
+              public DbSet<APIAlumnos2026.Models.HistorialAlumno> HistorialAlumno { get; set; } = default!;
+
+             public DbSet<APIAlumnos2026.Models.HistorialDocente> HistorialDocente { get; set; } = default!;
     }

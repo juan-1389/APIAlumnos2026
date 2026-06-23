@@ -1,7 +1,7 @@
 //HACER PRIMERO EL METODO PARA ARMAR EL COMBO DESPLEGABLE DE CATEGORIAS
 async function ObtenerAsignaturas() {
 
-    const respuesta = await fetch('https://localhost:7187/Asignatura', {
+    const respuesta = await fetch('https://localhost:7187/Asignaturas', {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -10,13 +10,13 @@ async function ObtenerAsignaturas() {
 
     const asignaturas = await respuesta.json();
 
-    const comboSelect = document.querySelector("#selectAsignatura");
+    const comboSelect = document.querySelector("#selectAsignaturas");
     comboSelect.innerHTML = "";
 
 
     let opciones = `<option value="0">[TODAS LAS ASIGNATURAS]</option>`;
-    asignaturas.forEach((Asignatura) => {
-        opciones += `<option value="${Asignatura.AsignaturaID}">${Asignatura.descripcion}</option>`;
+    asignaturas.forEach((asignatura) => {
+        opciones += `<option value="${asignatura.asignaturaId}">${asignatura.descripcion}</option>`;
     });
     comboSelect.innerHTML = opciones;
     IniciarFechas();
@@ -38,20 +38,36 @@ function IniciarFechas() {
     document.getElementById("FechaHastaBuscar").value = fechaHasta;
 }
 
-const inputCategoria = document.getElementById("selectAsignaturas");
-inputCategoria.onchange = function () {
-    getPromedioAlumnos();
-};
+// const inputCategoria = document.getElementById("selectAsignaturas");
+// inputCategoria.onchange = function () {
+//     getPromedioAlumnos();
+// };
 
-const inputFechaDesde = document.getElementById("FechaDesdeBuscar");
-inputFechaDesde.onchange = function () {
-    getPromedioAlumnos();
-};
+// const inputFechaDesde = document.getElementById("FechaDesdeBuscar");
+// inputFechaDesde.onchange = function () {
+//     getPromedioAlumnos();
+// };
 
-const inputFechaHasta = document.getElementById("FechaHastaBuscar");
-inputFechaHasta.onchange = function () {
-    getPromedioAlumnos();
-};
+// const inputFechaHasta = document.getElementById("FechaHastaBuscar");
+// inputFechaHasta.onchange = function () {
+//     getPromedioAlumnos();
+// };
+
+document
+  .getElementById("selectAsignaturas")
+  ?.addEventListener("change", getPromedioAlumnos);
+
+  document
+  .getElementById("selectAlumnos")
+  ?.addEventListener("change", getPromedioAlumnos);
+
+  document
+  .getElementById("FechaDesdeBuscar")
+  ?.addEventListener("change", getPromedioAlumnos);
+
+  document
+  .getElementById("FechaHastaBuscar")
+  ?.addEventListener("change", getPromedioAlumnos);
 
 async function getPromedioAlumnos() {
     let fechaDesde = document.getElementById("FechaDesdeBuscar").value;
@@ -70,7 +86,7 @@ async function getPromedioAlumnos() {
         fechaHasta: fechaHasta,
         asignaturaID: document.getElementById("selectAsignaturas").value
     };
-    const res = await fetch('https://localhost:7187/informes/promedioalumnos', {
+    const res = await fetch('https://localhost:7187/api/Informes/promedioalumnos', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -86,9 +102,9 @@ async function getPromedioAlumnos() {
 
         const rowInsertar = document.createElement("tr");
         rowInsertar.innerHTML = `          
-            <td>${Alumno.NombreCompleto}</td>   
+            <td>${Alumno.nombreCompleto}</td>   
             <td class="text-center">${Alumno.dni}</td>
-            <td class="text-center text-bold">${Alumno.romedio.toFixed(2)}</td>       
+            <td class="text-center text-bold">${Alumno.promedio.toFixed(2)}</td>       
         `;
         tbody.appendChild(rowInsertar);
 

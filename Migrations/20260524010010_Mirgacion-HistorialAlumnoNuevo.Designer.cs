@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIAlumnos2026.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20260524010010_Mirgacion-HistorialAlumnoNuevo")]
+    partial class MirgacionHistorialAlumnoNuevo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,34 +116,6 @@ namespace APIAlumnos2026.Migrations
                     b.HasKey("HistorialAlumnoId");
 
                     b.ToTable("HistorialAlumno");
-                });
-
-            modelBuilder.Entity("APIAlumnos2026.Models.HistorialDocente", b =>
-                {
-                    b.Property<int>("HistorialDocenteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistorialDocenteId"));
-
-                    b.Property<string>("CampoModificado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DocenteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCambio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ValorAnterior")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ValorNuevo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HistorialDocenteId");
-
-                    b.ToTable("HistorialDocente");
                 });
 
             modelBuilder.Entity("APIAlumnos2026.Models.HistorialNotaAlumno", b =>

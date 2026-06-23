@@ -1,7 +1,7 @@
 //HACER PRIMERO EL METODO PARA ARMAR EL COMBO DESPLEGABLE DE CATEGORIAS
-async function ObtenerAsignaturas() {
+async function ObtenerinformeAsignatura() {
 
-    const respuesta = await fetch(`${linkApi}/Asignatura`, {
+    const respuesta = await fetch('https://localhost:7187/Asignaturas', {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -10,13 +10,14 @@ async function ObtenerAsignaturas() {
 
     const asignaturas = await respuesta.json();
 
-    const comboSelect = document.querySelector("#selectAsignatura");
+    const comboSelect = document.querySelector("#selectAsignaturas");
     comboSelect.innerHTML = "";
 
 
     let opciones = `<option value="0">[TODAS LAS ASIGNATURAS]</option>`;
+    console.log(asignaturas)
     asignaturas.forEach((asignatura) => {
-        opciones += `<option value="${asignatura.asignaturaID}">${asignatura.descripcion}</option>`;
+        opciones += `<option value="${asignatura.asignaturaId}">${asignatura.descripcion}</option>`;
     });
     comboSelect.innerHTML = opciones;
     IniciarFechas();
@@ -38,20 +39,42 @@ function IniciarFechas() {
     document.getElementById("FechaHastaBuscar").value = fechaHasta;
 }
 
-const inputCategoria = document.getElementById("selectAsignaturas");
-inputCategoria.onchange = function () {
-    getPromedioAlumnos();
-};
+// const inputCategoria = document.getElementById("selectAsignaturas");
+// inputCategoria.onchange = function () {
+//     getPromedioAlumnos();
+// };
 
-const inputFechaDesde = document.getElementById("FechaDesdeBuscar");
-inputFechaDesde.onchange = function () {
-    getPromedioAlumnos();
-};
+// const inputCategoria = document.getElementById("selectAlumnos");
+// inputCategoria.onchange = function () {
+//     getPromedioAlumnos();
+// };
 
-const inputFechaHasta = document.getElementById("FechaHastaBuscar");
-inputFechaHasta.onchange = function () {
-    getPromedioAlumnos();
-};
+// const inputFechaDesde = document.getElementById("FechaDesdeBuscar");
+// inputFechaDesde.onchange = function () {
+//     getPromedioAlumnos();
+// };
+
+// const inputFechaHasta = document.getElementById("FechaHastaBuscar");
+// inputFechaHasta.onchange = function () {
+//     getPromedioAlumnos();
+// };
+
+
+document
+  .getElementById("selectAsignaturas")
+  ?.addEventListener("change", getPromedioAlumnos);
+
+  document
+  .getElementById("selectAlumnos")
+  ?.addEventListener("change", getPromedioAlumnos);
+
+  document
+  .getElementById("FechaDesdeBuscar")
+  ?.addEventListener("change", getPromedioAlumnos);
+
+  document
+  .getElementById("FechaHastaBuscar")
+  ?.addEventListener("change", getPromedioAlumnos);
 
 async function getPromedioAlumnos() {
     let fechaDesde = document.getElementById("FechaDesdeBuscar").value;
@@ -68,9 +91,11 @@ async function getPromedioAlumnos() {
     const filtros = {
         fechaDesde: fechaDesde,
         fechaHasta: fechaHasta,
-        asignaturaID: document.getElementById("selectAsignaturas").value
+        asignaturaID: document.getElementById("selectAsignaturas").value,
+        alumnoID: document.getElementById("selectAlumnos").value
     };
-    const res = await fetch(`${linkApi}/informes/promedioalumnos`, {
+
+    const res = await fetch('https://localhost:7187/api/Informes/promedioalumnos', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -82,17 +107,41 @@ async function getPromedioAlumnos() {
     const tbody = document.querySelector("#tablaAlumnos tbody");
     tbody.innerHTML = "";
 
-    alumnos.forEach(alumno => {
+    alumnos.forEach(Alumno => {
 
         const rowInsertar = document.createElement("tr");
         rowInsertar.innerHTML = `          
-            <td>${alumno.nombreCompleto}</td>   
-            <td class="text-center">${alumno.dni}</td>
-            <td class="text-center text-bold">${alumno.promedio.toFixed(2)}</td>       
+            <td>${Alumno.nombreCompleto}</td>   
+            <td class="text-center">${Alumno.dni}</td>
+            <td class="text-center text-bold">${Alumno.promedio.toFixed(2)}</td>       
         `;
         tbody.appendChild(rowInsertar);
 
     });
+}
+
+async function ObtenerAlumnos() {
+
+  const respuesta = await fetch('https://localhost:7187/Api/Alumnos', {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+
+  const alumnos = await respuesta.json();
+
+  const comboSelect = document.querySelector("#selectAlumnos");
+  comboSelect.innerHTML = "";
+
+
+  let opciones = `<option value="0">[TODOS LOS ALUMNOS]</option>`;
+  alumnos.forEach((alumno) => {
+    opciones += `<option value="${alumno.alumnoId}">${alumno.nombreCompleto}</option>`;
+  });
+  comboSelect.innerHTML = opciones;
+
+   getPromedioAlumnos();
 }
 
 ObtenerinformeAsignatura();

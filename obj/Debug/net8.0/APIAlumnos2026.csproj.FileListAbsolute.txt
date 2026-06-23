@@ -250,3 +250,4 @@ C:\Users\ASUS\Desktop\APIAlumnos2026\obj\Debug\net8.0\refint\APIAlumnos2026.dll
 C:\Users\ASUS\Desktop\APIAlumnos2026\obj\Debug\net8.0\APIAlumnos2026.pdb
 C:\Users\ASUS\Desktop\APIAlumnos2026\obj\Debug\net8.0\APIAlumnos2026.genruntimeconfig.cache
 C:\Users\ASUS\Desktop\APIAlumnos2026\obj\Debug\net8.0\ref\APIAlumnos2026.dll
+C:\Users\ASUS\Desktop\APIAlumnos2026\obj\Debug\net8.0\APIAlumnos2026.sourcelink.json

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIAlumnos2026.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20260519224240_Mirgacion-HistorialAlumno")]
+    partial class MirgacionHistorialAlumno
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,62 +90,6 @@ namespace APIAlumnos2026.Migrations
                     b.ToTable("Docentes");
                 });
 
-            modelBuilder.Entity("APIAlumnos2026.Models.HistorialAlumno", b =>
-                {
-                    b.Property<int>("HistorialAlumnoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistorialAlumnoId"));
-
-                    b.Property<int>("AlumnoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CampoModificado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaCambio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ValorAnterior")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ValorNuevo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HistorialAlumnoId");
-
-                    b.ToTable("HistorialAlumno");
-                });
-
-            modelBuilder.Entity("APIAlumnos2026.Models.HistorialDocente", b =>
-                {
-                    b.Property<int>("HistorialDocenteId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistorialDocenteId"));
-
-                    b.Property<string>("CampoModificado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DocenteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaCambio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ValorAnterior")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ValorNuevo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("HistorialDocenteId");
-
-                    b.ToTable("HistorialDocente");
-                });
-
             modelBuilder.Entity("APIAlumnos2026.Models.HistorialNotaAlumno", b =>
                 {
                     b.Property<int>("HistorialNotaAlumnoId")
@@ -168,7 +115,7 @@ namespace APIAlumnos2026.Migrations
 
                     b.HasKey("HistorialNotaAlumnoId");
 
-                    b.ToTable("HistorialNotaAlumno");
+                    b.ToTable("HistorialNotaAlumnos");
                 });
 
             modelBuilder.Entity("APIAlumnos2026.Models.NotaAlumno", b =>
@@ -220,9 +167,6 @@ namespace APIAlumnos2026.Migrations
                     b.Property<int>("Dni")
                         .HasColumnType("int");
 
-                    b.Property<string>("Domicilio")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FechaString")
                         .HasColumnType("nvarchar(max)");
 
@@ -249,7 +193,7 @@ namespace APIAlumnos2026.Migrations
                         .IsRequired();
 
                     b.HasOne("APIAlumnos2026.Models.Asignatura", "Asignatura")
-                        .WithMany("NotasAlumnos")
+                        .WithMany()
                         .HasForeignKey("AsignaturaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -262,11 +206,6 @@ namespace APIAlumnos2026.Migrations
             modelBuilder.Entity("APIAlumnos2026.Models.Alumno", b =>
                 {
                     b.Navigation("Notas");
-                });
-
-            modelBuilder.Entity("APIAlumnos2026.Models.Asignatura", b =>
-                {
-                    b.Navigation("NotasAlumnos");
                 });
 #pragma warning restore 612, 618
         }

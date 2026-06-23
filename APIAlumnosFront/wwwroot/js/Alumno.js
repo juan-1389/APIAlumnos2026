@@ -1,5 +1,5 @@
 function ObtenerAlumnos() {
-    fetch('https://localhost:7187/Alumnos')
+    fetch('https://localhost:7187/Api/Alumnos')
     .then(response => {
         if (!response.ok) throw new Error("Error en la API");
         return response.json();
@@ -15,10 +15,11 @@ function MostrarAlumnos(data) {
 
         let sexoTexto = "";
 
+        console.log(alumno)
         switch (alumno.sexo) {
-            case 0: sexoTexto = "Masculino"; break;
-            case 1: sexoTexto = "Femenino"; break;
-            case 2: sexoTexto = "Otro"; break;
+            case 1: sexoTexto = "Masculino"; break;
+            case 2: sexoTexto = "Femenino"; break;
+            case 3: sexoTexto = "Otro"; break;
         }
 
         $("#TodosLosAlumnos").append(
@@ -29,6 +30,7 @@ function MostrarAlumnos(data) {
                 "<td>" + sexoTexto + "</td>" +
                 "<td>" + alumno.domicilio + "</td>" +
                 "<td><button class='btn btn-info' onclick='BuscarAlumnoId(" + alumno.alumnoId + ")'>Editar</button></td>" +
+                "<td><button class='btn btn-secondary' onclick='AbrirModalHistorial(" + alumno.alumnoId + ")'>Historial</button></td>" +
                 "<td><button class='btn btn-danger' onclick='EliminarAlumno(" + alumno.alumnoId + ")'>Eliminar</button></td>" +
             "</tr>"
         );
@@ -69,7 +71,7 @@ function CrearAlumno() {
         domicilio: domicilio
     };
 
-    fetch('https://localhost:7187/Alumnos', {
+    fetch('https://localhost:7187/Api/Alumnos', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(alumno)
@@ -95,7 +97,7 @@ function CrearAlumno() {
 function EliminarAlumno(id) {
     if (!confirm("¿Seguro que desea eliminar este alumno?")) return;
 
-    fetch(`https://localhost:7187/Alumnos/${id}`, {
+    fetch(`https://localhost:7187/Api/Alumnos/${id}`, {
         method: 'DELETE'
     })
     .then(response => {
@@ -109,7 +111,7 @@ function EliminarAlumno(id) {
 }
 
 function BuscarAlumnoId(id) {
-    fetch(`https://localhost:7187/Alumnos/${id}`, { method: 'GET' })
+    fetch(`https://localhost:7187/Api/Alumnos/${id}`, { method: 'GET' })
     .then(response => {
         if (!response.ok) throw new Error("Error al buscar alumno");
         return response.json();
@@ -162,7 +164,7 @@ function EditarAlumno() {
         domicilio: domicilio
     };
 
-    fetch(`https://localhost:7187/Alumnos/${alumno.alumnoId}`, {
+    fetch(`https://localhost:7187/Api/Alumnos/${alumno.alumnoId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(alumno)
@@ -177,4 +179,50 @@ function EditarAlumno() {
         ObtenerAlumnos();
     })
     .catch(error => console.error(error));
+}
+
+async function AbrirModalHistorial(id) {
+
+  try {
+    const respuesta = await fetch(`https://localhost:7187/Api/Informes/HistorialAlumno/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    if (!respuesta.ok) {
+      throw new Error("No se pudo obtener el dato");
+    }
+
+    const historial = await respuesta.json();
+
+    const bodyNotasAlumnos = document.getElementById("tbody-historial-notas");
+    bodyNotasAlumnos.innerHTML = "";
+
+    historial.forEach((nota) => {
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+       <td class="text-center">${nota.fechaCambioString} Hs.</td>
+            <td>${nota.campoModificado}</td>
+            <td>${nota.valorAnterior} </td>
+              <td>${nota.valorNuevo} </td>
+        `;
+
+      bodyNotasAlumnos.appendChild(tr);
+    });
+
+
+    var modal = bootstrap.Modal.getOrCreateInstance(
+      document.getElementById('modalHistorialAlumno')
+    );
+
+    modal.show();
+
+  } catch (error) {
+    console.error("Error editar:", error);
+  }
 }

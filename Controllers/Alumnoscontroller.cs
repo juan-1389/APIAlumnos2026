@@ -7,54 +7,152 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using APIAlumnos2026.Models;
 
-namespace APIAlumnos2026.Controllers
+namespace ApiAlumnos2026.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class Alumnoscontroller : ControllerBase
+    public class AlumnosController : ControllerBase
     {
         private readonly Context _context;
 
-        public Alumnoscontroller(Context context)
+        public AlumnosController(Context context)
         {
             _context = context;
         }
 
-        // GET: api/Alumnoscontroller
+        // GET: api/Alumnos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Alumno>>> GetNotaAlumno()
+        public async Task<ActionResult<IEnumerable<VistaAlumno>>> GetAlumnos()
         {
-            return await _context.Alumnos.ToListAsync();
+            List<VistaAlumno> VistaAlumnos = new List<VistaAlumno>();
+
+            var alumnos = await _context.Alumnos.OrderBy(n => n.NombreCompleto).ToListAsync();
+
+            foreach (var alumno in alumnos)
+            {
+                var mostraAlumno = new VistaAlumno
+                {
+                    AlumnoId = alumno.AlumnoId,
+                    NombreCompleto = alumno.NombreCompleto,
+                    Dni = alumno.Dni,
+                    Domicilio = alumno.Domicilio,
+                    Sexo = alumno.Sexo,
+                };
+                VistaAlumnos.Add(mostraAlumno);
+
+            }
+
+            return VistaAlumnos;
         }
 
-        // GET: api/Alumnoscontroller/5
+        // GET: api/Alumnos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Alumno>> GetAlumno(int id)
         {
-            var Alumno = await _context.Alumnos.FindAsync(id);
+            var alumno = await _context.Alumnos.FindAsync(id);
 
-            if (Alumno == null)
+            if (alumno == null)
             {
                 return NotFound();
             }
 
-            return Alumno;
+            return alumno;
         }
 
-        // PUT: api/Alumnoscontroller/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+
+        // PUT: api/Alumnos/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAlumno(int id, Alumno Alumno)
+        public async Task<IActionResult> PutAlumno(int id, Alumno alumno)
         {
-            if (id != Alumno.AlumnoId)
+            if (id != alumno.AlumnoId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(Alumno).State = EntityState.Modified;
+            if (!string.IsNullOrEmpty(alumno.NombreCompleto))
+            {
+                alumno.NombreCompleto = alumno.NombreCompleto;
+            }
+
+            if (!string.IsNullOrEmpty(alumno.Domicilio))
+            {
+                alumno.Domicilio = alumno.Domicilio;
+            }
+
+            var alumnoExiste = await _context.Alumnos.Where(t => t.Dni == alumno.Dni && t.AlumnoId != alumno.AlumnoId).FirstOrDefaultAsync();
+
+            if (alumnoExiste != null)
+            {
+                return Conflict(new { mensaje = "Ya existe un alumno con ese dni." });
+            }
 
             try
             {
+
+                var alumnoOriginal = _context.Alumnos.Where(n => n.AlumnoId == id).Single();
+
+                //PREGUNTAR QUE CAMBIA
+                if (alumnoOriginal.NombreCompleto != alumno.NombreCompleto)
+                {
+                    var editoAlumno = new HistorialAlumno
+                    {
+                        AlumnoId = id,
+                        FechaCambio = DateTime.Now,
+                        CampoModificado = "NOMBRE",
+                        ValorAnterior = alumnoOriginal.NombreCompleto,
+                        ValorNuevo = alumno.NombreCompleto,
+                    };
+                    _context.HistorialAlumno.Add(editoAlumno);
+                }
+
+
+                if (alumnoOriginal.Dni != alumno.Dni)
+                {
+                    var editoAlumno = new HistorialAlumno
+                    {
+                        AlumnoId = id,
+                        FechaCambio = DateTime.Now,
+                        CampoModificado = "DNI",
+                        ValorAnterior = alumnoOriginal.Dni.ToString(),
+                        ValorNuevo = alumno.Dni.ToString(),
+                    };
+                    _context.HistorialAlumno.Add(editoAlumno);
+                }
+
+
+                if (alumnoOriginal.Sexo != alumno.Sexo)
+                {
+                    var editoAlumno = new HistorialAlumno
+                    {
+                        AlumnoId = id,
+                        FechaCambio = DateTime.Now,
+                        CampoModificado = "SEXO",
+                        ValorAnterior = alumnoOriginal.Sexo.ToString(),
+                        ValorNuevo = alumno.Sexo.ToString(),
+                    };
+                    _context.HistorialAlumno.Add(editoAlumno);
+                }
+
+
+                if (alumnoOriginal.Domicilio != alumno.Domicilio)
+                {
+                    var editoAlumno = new HistorialAlumno
+                    {
+                        AlumnoId = id,
+                        FechaCambio = DateTime.Now,
+                        CampoModificado = "DOMICILIO",
+                        ValorAnterior = alumnoOriginal.Domicilio,
+                        ValorNuevo = alumno.Domicilio,
+                    };
+                    _context.HistorialAlumno.Add(editoAlumno);
+                }
+
+                alumnoOriginal.NombreCompleto = alumno.NombreCompleto;
+                alumnoOriginal.Dni= alumno.Dni;
+                alumnoOriginal.Sexo = alumno.Sexo;
+                alumnoOriginal.Domicilio = alumno.Domicilio;
+
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -72,31 +170,46 @@ namespace APIAlumnos2026.Controllers
             return NoContent();
         }
 
-        // POST: api/Alumnoscontroller
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Alumno>> PostNotaAlumno(Alumno Alumno)
+        public async Task<ActionResult<Alumno>> PostAlumno(Alumno alumno)
         {
-            _context.Alumnos.Add(Alumno);
+
+            if (!string.IsNullOrEmpty(alumno.NombreCompleto))
+            {
+                alumno.NombreCompleto = alumno.NombreCompleto;
+            }
+
+            if (!string.IsNullOrEmpty(alumno.Domicilio))
+            {
+                alumno.Domicilio = alumno.Domicilio;
+            }
+            var alumnoExiste = await _context.Alumnos.Where(t => t.Dni == alumno.Dni).FirstOrDefaultAsync();
+
+            if (alumnoExiste != null)
+            {
+                return Conflict(new { mensaje = "Ya existe un alumno con ese dni." });
+            }
+
+            _context.Alumnos.Add(alumno);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetNotaAlumno", new { id = Alumno.AlumnoId }, Alumno);
+            return CreatedAtAction("GetAlumno", new { id = alumno.AlumnoId }, alumno);
         }
 
-        // DELETE: api/Alumnoscontroller/5
+        // DELETE: api/Alumnos/5 esta seccion del aplicativo no se usa el delete
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlumno(int id)
         {
-            var Alumno = await _context.Alumnos.FindAsync(id);
-            if (Alumno == null)
+            var alumno = await _context.Alumnos.FindAsync(id);
+            if (alumno == null)
             {
                 return NotFound();
             }
 
-            _context.Alumnos.Remove(Alumno);
+            _context.Alumnos.Remove(alumno);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool AlumnoExists(int id)

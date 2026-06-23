@@ -1,25 +1,468 @@
-* {
+/* =========================
+   RESET GENERAL
+========================= */
+*{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   BODY / FONDO
+========================= */
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
 }
 
 .bg1{
-    background-color: grey!important;
+    background: linear-gradient(
+        135deg,
+        #1e1e2f,
+        #2f3e46
+    ) !important;
+
     background-size: cover;
-    background-position: center center;
+    background-position: center;
     background-repeat: no-repeat;
 }
+
+/* =========================
+   CONTAINER
+========================= */
 .container{
-    height: 100%;
+    padding-top: 20px;
+    padding-bottom: 40px;
 }
 
+/* =========================
+   TITULOS
+========================= */
 h1{
-    color: yellow;
+    color: #ffd60a;
     text-align: center;
     text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
     margin: 10px 0px 20px 0px;
 }
 
+/* =========================
+   HR
+========================= */
 hr{
-    margin: 0.5rem 0!important ;
+    margin: 0.5rem 0 1.5rem 0 !important;
+    border: none;
+    height: 2px;
+    background-color: rgba(255,255,255,0.2);
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar{
+    background-color: #111827 !important;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.4);
+    padding: 12px;
+}
+
+.navbar-nav{
+    gap: 10px;
+}
+
+.nav-link{
+    color: white !important;
+    transition: 0.3s;
+    border-radius: 8px;
+    padding: 8px 12px !important;
+}
+
+.nav-link:hover{
+    background-color: #374151;
+    color: #ffd60a !important;
+}
+
+.nav-link.active{
+    background-color: #ffd60a;
+    color: black !important;
+    font-weight: bold;
+}
+
+/* =========================
+   BOTONES
+========================= */
+.btn{
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-success{
+    background-color: #198754;
+    border: none;
+}
+
+.btn-success:hover{
+    transform: scale(1.03);
+    background-color: #157347;
+}
+
+.btn-primary{
+    background-color: #0d6efd;
+    border: none;
+}
+
+.btn-primary:hover{
+    transform: scale(1.03);
+    background-color: #0b5ed7;
+}
+
+.btn-secondary:hover{
+    transform: scale(1.03);
+}
+
+/* =========================
+   TABLAS
+========================= */
+.table{
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+}
+
+.table thead{
+    background-color: #111827;
+    color: #ffd60a;
+}
+
+.table th{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table td{
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Hover filas */
+.table tbody tr:hover{
+    background-color: rgba(255,255,255,0.08);
+    transition: 0.2s;
+}
+
+/* =========================
+   MODALES
+========================= */
+.modal-content{
+    border-radius: 15px;
+    border: none;
+    overflow: hidden;
+}
+
+.modal-header{
+    background-color: #111827;
+    color: white;
+}
+
+.modal-title{
+    font-weight: bold;
+}
+
+.modal-body{
+    background-color: #f8f9fa;
+}
+
+.modal-footer{
+    background-color: #f1f3f5;
+}
+
+/* =========================
+   INPUTS
+========================= */
+.form-control,
+.form-select{
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    transition: 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color: #0d6efd;
+    box-shadow: 0px 0px 8px rgba(13,110,253,0.3);
+}
+
+/* =========================
+   LABELS
+========================= */
+.form-label{
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* =========================
+   ERRORES
+========================= */
+.text-danger{
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* =========================
+   TABLA HISTORIAL
+========================= */
+#modalHistorialAlumno .table{
+    margin-top: 10px;
+}
+
+#modalHistorialAlumno th{
+    background-color: #212529;
+    color: white;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media(max-width: 991px){
+
+    .navbar-nav{
+        margin-top: 15px;
+    }
+
+    .nav-link{
+        width: 100%;
+    }
+
+    h1{
+        font-size: 1.5rem;
+    }
+
+    .table{
+        font-size: 14px;
+    }
+}
+
+@media(max-width: 768px){
+
+    .container{
+        width: 95%;
+    }
+
+    .table{
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .btn{
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+
+/* =========================================================
+   CONTENEDOR TITULO INFORME
+   Viene de:
+   <div class="d-sm-flex align-items-center justify-content-between mb-4">
+========================================================= */
+
+.d-sm-flex{
+    padding: 20px 30px 0px 30px;
+}
+
+/* =========================================================
+   TITULO INFORME
+   Viene de:
+   <h1 class="h3 mb-0">
+========================================================= */
+
+.h3{
+    color: #ffd60a !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =========================================================
+   PANEL FILTROS
+   Viene de:
+   <div class="p-3 mb-2 bg-white text-dark">
+========================================================= */
+
+.bg-white{
+    width: 95%;
+    margin: auto;
+    border-radius: 15px;
+    padding: 25px !important;
+
+    box-shadow: 0px 5px 20px rgba(0,0,0,0.25);
+}
+
+/* =========================================================
+   LABELS FILTROS
+   Viene de:
+   <label class="control-label">
+========================================================= */
+
+.control-label{
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #1e293b;
+}
+
+/* =========================================================
+   INPUT DATE
+   Viene de:
+   <input class="form-control form-control-sm" type="date">
+========================================================= */
+
+.form-control-sm{
+    border-radius: 10px;
+    padding: 8px;
+    transition: 0.3s;
+}
+
+/* Focus inputs */
+.form-control-sm:focus{
+    border-color: #2563eb;
+    box-shadow: 0px 0px 8px rgba(37,99,235,0.3);
+}
+
+/* =========================================================
+   SELECTS INFORMES
+   Viene de:
+   <select class="form-control form-control-sm">
+========================================================= */
+
+select.form-control-sm{
+    cursor: pointer;
+}
+
+/* =========================================================
+   TABLA RESPONSIVE
+   Viene de:
+   <div class="table-responsive">
+========================================================= */
+
+.table-responsive{
+    width: 95%;
+    margin: 30px auto;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* =========================================================
+   TABLA INFORMES
+   Viene de:
+   <table class="table table-bordered table-sm">
+========================================================= */
+
+#tablaAlumnos{
+    background-color: white;
+    overflow: hidden;
+
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+}
+
+/* =========================================================
+   HEADER TABLA
+   Viene de:
+   <thead>
+========================================================= */
+
+#tablaAlumnos thead{
+    background-color: #0f172a;
+    color: #ffd60a;
+}
+
+/* =========================================================
+   TITULOS COLUMNAS
+   Viene de:
+   <th>
+========================================================= */
+
+#tablaAlumnos th{
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px;
+    font-size: 15px;
+}
+
+/* =========================================================
+   DATOS TABLA
+   Viene de:
+   <td>
+========================================================= */
+
+#tablaAlumnos td{
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+/* Hover filas */
+#tablaAlumnos tbody tr:hover{
+    background-color: rgba(37,99,235,0.08);
+    transition: 0.2s;
+}
+
+/* =========================================================
+   FILAS TABLA
+========================================================= */
+
+#tablaAlumnos tbody{
+    background-color: white;
+}
+
+/* =========================================================
+   SOMBRA GENERAL TABLA
+========================================================= */
+
+.table{
+    margin-bottom: 0;
+}
+
+/* =========================================================
+   RESPONSIVE FILTROS
+========================================================= */
+
+@media(max-width:768px){
+
+    .bg-white{
+        width: 98%;
+        padding: 15px !important;
+    }
+
+    .table-responsive{
+        width: 98%;
+    }
+
+    .h3{
+        font-size: 1.4rem;
+        text-align: center;
+    }
+
+    .d-sm-flex{
+        justify-content: center !important;
+        text-align: center;
+        padding: 20px 10px 0px 10px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE TABLA
+========================================================= */
+
+@media(max-width:576px){
+
+    #tablaAlumnos{
+        font-size: 13px;
+    }
+
+    #tablaAlumnos th,
+    #tablaAlumnos td{
+        padding: 8px;
+    }
 }
